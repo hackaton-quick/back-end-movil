@@ -4,9 +4,9 @@ import { createXHR, headers, url } from '../utils/utils';
 import { pluck, timeout, retry } from 'rxjs/operators';
 import { ErrorQuick } from '../interfaces/interfaces';
 
-const router = Router();
+const login = Router();
 
-router.get('/login', (req:Request, res:Response) => {
+login.get('/login', (req:Request, res:Response) => {
     
     const { correo, contrasena } = req.body;
     const args = {
@@ -36,4 +36,4 @@ router.get('/login', (req:Request, res:Response) => {
 
 });
 
-export default router;
+export default login;

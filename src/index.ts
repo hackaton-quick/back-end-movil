@@ -1,9 +1,10 @@
 import Server from './server/server';
-import router from './router/router';
+import login from './router/login';
 
- const server = Server.init(3000);
- server.app.use(router);
+const port = process.env.PORT || 3005;
+ const server = Server.init(Number(port));
+ server.app.use(login);
 
- server.start( () =>{
-     console.log('Servidor corriendo 3000');
+ server.start( () => {
+     console.log('Servidor corriendo ' + Number(port));
  });
