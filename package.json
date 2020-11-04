@@ -1,10 +1,10 @@
 {
-  "name": "safe-asreas",
+  "name": "safe-areas",
   "version": "1.0.0",
   "description": "Para Hackaton",
   "main": "index.js",
   "scripts": {
-    "start":"tsc -w && nodemon dist/index"
+    "start":"nodemon dist/index"
   },
   "author": "",
   "license": "ISC",
