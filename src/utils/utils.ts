@@ -2,9 +2,9 @@ import { XMLHttpRequest } from 'xmlhttprequest';
 require('dotenv').config();
 
 export const headers = {
-    'QB-Realm-Hostname': process.env.QB,
-    'User-Agent': process.env.User_Agent,
-    'Authorization': process.env.Authorization,
+    'QB-Realm-Hostname': 'hackathon20-jrubio.quickbase.com',
+    'User-Agent': 'Back_end_services_V1',
+    'Authorization': 'QB-USER-TOKEN b4g4xk_pdxv_bvdkgjxh23gmackkwd4xcmr3d9s',
     'Content-Type': 'application/json'
   }
 
