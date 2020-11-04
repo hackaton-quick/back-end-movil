@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "copy-html": "copyfiles --up 1 src/public/*.html dist",
-    "build": "tsc && npm run copy-html"
+    "build": "tsc && npm run copy-html",
+    "start":"tsc -w && nodemon dist/index"
   },
   "author": "",
   "license": "ISC",
