@@ -13,3 +13,15 @@ export function createXHR() {
 }
 
 export const url = 'https://api.quickbase.com/v1/records/query';
+
+export function crearJSON(resp:any) {
+  let data = [];
+  for (const it1 of resp.response.fields) {
+      for (let it2 of Object.keys(resp.response.data[0])) {
+          if(String(it1.id) === it2) {
+              data.push([String(it1.label).replace(/[ #]/g, "_"),resp.response.data[0][it2]["value"]]);
+          }
+      }
+  }
+  return data;
+}
