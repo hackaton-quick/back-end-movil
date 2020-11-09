@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
 import { ajax } from 'rxjs/ajax';
-import { createXHR, headers, url, crearJSON } from '../utils/utils';
-import { pluck, timeout, retry } from 'rxjs/operators';
-import { ErrorQuick, Respuesta } from '../interfaces/interfaces';
+import { createXHR, headers, urlGET, crearJSON } from '../utils/utils';
+import { timeout, retry } from 'rxjs/operators';
+import { ErrorQuick } from '../interfaces/interfaces';
 
 const login = Router();
 
@@ -11,9 +11,9 @@ login.get('/login', (req:Request, res:Response) => {
     const { correo, contrasena } = req.body;
 
     if( correo == null ) {
-        res.json({ message: "Falta correo" })
+        res.json({ status: 400,message: "Falta correo" })
     } else if( contrasena == null ) {
-        res.json({ message: "Falta contraseña" })
+        res.json({ status: 400,message: "Falta contraseña" })
     } else {
         const args = {
             "from": "bqxxn48j6",
@@ -21,20 +21,24 @@ login.get('/login', (req:Request, res:Response) => {
             "where": `{24.EX.${correo}}AND{25.EX.${contrasena}}`
         };
     
-        ajax({  createXHR,  url, method: 'POST', headers, body: args}).pipe(
+        ajax({  createXHR,  url:urlGET, method: 'POST', headers, body: args}).pipe(
             timeout(60000),
             retry(5),
         ).subscribe( (resp) => {
 
             resp.response.data.length < 1 ? res.json({
-                mensaje: 'No se encontro un usuario en la base de datos, verificar usuario y contraseña por favor.'
-            }) : !resp.response.data[0][28].value ? res.json({mensaje: 'El usuario no esta autorizado'}) :
-            res.json(Object.fromEntries(crearJSON(resp)));
+                status: 400,
+                message: 'No se encontro un usuario en la base de datos, verificar usuario y contraseña por favor.'
+            }) : !resp.response.data[0][28].value ? res.json({status: 400, message: 'El usuario no esta autorizado'}) :
+            res.json({
+                status: 200,
+                response: Object.fromEntries(crearJSON(resp))
+            });
     
         }, (errr:ErrorQuick) => {
             res.json({
                 status: errr.status,
-                respuesta: errr.response
+                response: errr.response
             });
         });    
     }

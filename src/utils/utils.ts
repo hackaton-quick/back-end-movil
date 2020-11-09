@@ -12,7 +12,8 @@ export function createXHR() {
     return new XMLHttpRequest();
 }
 
-export const url = 'https://api.quickbase.com/v1/records/query';
+export const urlGET = 'https://api.quickbase.com/v1/records/query';
+export const urlPOST = 'https://api.quickbase.com/v1/records';
 
 export function crearJSON(resp:any) {
   let data = [];

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.crearJSON = exports.url = exports.createXHR = exports.headers = void 0;
+exports.crearJSON = exports.urlPOST = exports.urlGET = exports.createXHR = exports.headers = void 0;
 const xmlhttprequest_1 = require("xmlhttprequest");
 require('dotenv').config();
 exports.headers = {
@@ -13,7 +13,8 @@ function createXHR() {
     return new xmlhttprequest_1.XMLHttpRequest();
 }
 exports.createXHR = createXHR;
-exports.url = 'https://api.quickbase.com/v1/records/query';
+exports.urlGET = 'https://api.quickbase.com/v1/records/query';
+exports.urlPOST = 'https://api.quickbase.com/v1/records';
 function crearJSON(resp) {
     let data = [];
     for (const it1 of resp.response.fields) {
