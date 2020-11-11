@@ -3,6 +3,8 @@ import login from './router/login';
 import clean from './router/cleaningLog';
 import obj from './router/objetsClean';
 import objects from './router/objects';
+import safe from './router/safeAreas';
+import log from './router/login_log';
 
  const port = process.env.PORT || 3005;
  const server = Server.init(Number(port));
@@ -11,6 +13,8 @@ import objects from './router/objects';
  server.app.use(clean);
  server.app.use(obj);
  server.app.use(objects);
+ server.app.use(safe);
+ server.app.use(log);
 
  server.start( () => {
      console.log('Servidor corriendo ' + Number(port));

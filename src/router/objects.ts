@@ -1,13 +1,13 @@
 import { Router, Request, Response } from 'express';
 import { ajax } from 'rxjs/ajax';
-import { urlGET, headers, createXHR, crearJSON } from '../utils/utils';
+import { urlGET, headers, createXHR, crearJSONS } from '../utils/utils';
 import { timeout, retry } from 'rxjs/operators';
 
 const objects = Router();
 
-objects.get('/objects', (req:Request, res:Response) => {
+objects.get('/objects/:id', (req:Request, res:Response) => {
 
-    const {id} = req.body;
+    const id = req.params.id;
 
     const args = {
         "from": "bqxyzr7bb",
@@ -19,20 +19,13 @@ objects.get('/objects', (req:Request, res:Response) => {
         timeout(60000),
         retry(5)
     ).subscribe( resp => {
+        let data = [];
 
-        let data:any[] = [];
-
-        for (const it2 of resp.response.data ) {
-            Object.keys(it2).forEach(val => {
-                for (const it1 of resp.response.fields) {
-                    if(val === String(it1.id)) {
-                        data.push([String(it1.label).replace(/[ #]/g, "_"), it2[val]["value"]]);
-                    }
-                }
-            });
+        for (let it2 of resp.response.data) {
+            data.push(crearJSONS(resp.response.fields, it2));
         }
 
-        res.json( data);
+        res.json( data  );
 
     }, err => {
         res.json({

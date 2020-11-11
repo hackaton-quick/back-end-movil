@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.crearJSON = exports.urlPOST = exports.urlGET = exports.createXHR = exports.headers = void 0;
+exports.crearJSONS = exports.crearJSON = exports.urlPOST = exports.urlGET = exports.createXHR = exports.headers = void 0;
 const xmlhttprequest_1 = require("xmlhttprequest");
 require('dotenv').config();
 exports.headers = {
@@ -27,3 +27,15 @@ function crearJSON(resp) {
     return data;
 }
 exports.crearJSON = crearJSON;
+function crearJSONS(fields, params) {
+    let data = [];
+    for (const it1 of fields) {
+        for (let it2 of Object.keys(params)) {
+            if (String(it1.id) === it2) {
+                data.push([String(it1.label).replace(/[ #]/g, "_"), params[it2]["value"]]);
+            }
+        }
+    }
+    return Object.fromEntries(data);
+}
+exports.crearJSONS = crearJSONS;

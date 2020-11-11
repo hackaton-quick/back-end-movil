@@ -26,3 +26,15 @@ export function crearJSON(resp:any) {
   }
   return data;
 }
+
+export function crearJSONS(fields:any, params:any) {
+    let data = [];
+    for (const it1 of fields) {
+        for (let it2 of Object.keys(params)) {
+            if(String(it1.id) === it2) {
+                data.push([String(it1.label).replace(/[ #]/g, "_"),params[it2]["value"]]);
+            }
+        }
+    }
+    return Object.fromEntries(data);
+}
