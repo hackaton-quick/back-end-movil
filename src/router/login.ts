@@ -6,7 +6,7 @@ import { ErrorQuick } from '../interfaces/interfaces';
 
 const login = Router();
 
-login.get('/login', (req:Request, res:Response) => {
+login.post('/login', (req:Request, res:Response) => {
     
     const { correo, contrasena } = req.body;
 

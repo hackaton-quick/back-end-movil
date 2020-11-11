@@ -5,7 +5,7 @@ const ajax_1 = require("rxjs/ajax");
 const utils_1 = require("../utils/utils");
 const operators_1 = require("rxjs/operators");
 const login = express_1.Router();
-login.get('/login', (req, res) => {
+login.post('/login', (req, res) => {
     const { correo, contrasena } = req.body;
     if (correo == null) {
         res.json({ status: 400, message: "Falta correo" });

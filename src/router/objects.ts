@@ -32,7 +32,7 @@ objects.get('/objects', (req:Request, res:Response) => {
             });
         }
 
-        res.json(data );
+        res.json( data);
 
     }, err => {
         res.json({
