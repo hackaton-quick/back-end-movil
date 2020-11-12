@@ -10,11 +10,10 @@ safe.get('/safe/:id', (req, res) => {
     let data = [];
     const args = {
         "from": "bqxyzp3ux",
-        "select": [3, 6, 9, 7, 13, 8],
+        "select": [3, 6, 9, 7, 13, 8, 23],
         "where": `{10.EX.${id}}`
     };
-    const $obs1 = ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlGET, method: 'POST', headers: utils_1.headers, body: args }).pipe(operators_1.timeout(60000), operators_1.retry(5));
-    $obs1.subscribe(resp => {
+    ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlGET, method: 'POST', headers: utils_1.headers, body: args }).pipe(operators_1.timeout(60000), operators_1.retry(5)).subscribe(resp => {
         for (let it2 of resp.response.data) {
             data.push(utils_1.crearJSONS(resp.response.fields, it2));
         }

@@ -12,16 +12,14 @@ safe.get('/safe/:id', (req:Request, res:Response) => {
 
     const args = {
         "from": "bqxyzp3ux",
-        "select": [ 3,6,9,7,13,8 ],
+        "select": [ 3,6,9,7,13,8,23 ],
         "where": `{10.EX.${id}}`
     };
 
-    const $obs1 = ajax({ createXHR, url: urlGET, method: 'POST', headers, body: args }).pipe(
+    ajax({ createXHR, url: urlGET, method: 'POST', headers, body: args }).pipe(
         timeout(60000),
         retry(5)
-    );
-    
-    $obs1.subscribe( resp => {
+    ).subscribe( resp => {
 
         for (let it2 of resp.response.data) {
             data.push(crearJSONS(resp.response.fields, it2));
