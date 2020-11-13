@@ -40,10 +40,10 @@ clean.post('/clean', (req:Request, res:Response) => {
 
 });
 
-clean.get('/clean/:idUser', (req:Request, res:Response) => {
+clean.get('/clean/:idUser/:fecha', (req:Request, res:Response) => {
 
     const idUser = req.params.idUser;
-    const fecha  = new Date().toLocaleDateString();
+    const fecha  = req.params.fecha;
 //AND{14.EX.true}
     const args = {
         "from": "bqyctsc8q",
