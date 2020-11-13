@@ -32,10 +32,12 @@ clean.post('/clean', (req, res) => {
 });
 clean.get('/clean/:idUser', (req, res) => {
     const idUser = req.params.idUser;
+    const fecha = new Date().toLocaleDateString();
+    //AND{14.EX.true}
     const args = {
         "from": "bqyctsc8q",
-        "select": [11, 8, 7, 13, , 17, 15],
-        "where": `{7.EX.${idUser}}AND{14.EX.true}`
+        "select": [11, 8, 7, 13, 17, 15, 19],
+        "where": `{7.EX.${idUser}}AND{12.EX.${fecha}}`
     };
     ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlGET, method: 'POST', headers: utils_1.headers, body: args }).pipe(operators_1.timeout(60000), operators_1.retry(5)).subscribe(resp => {
         let data = [];
