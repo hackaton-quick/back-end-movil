@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { ajax } from "rxjs/ajax";
-import { urlPOST, createXHR, headers } from '../utils/utils';
+import { urlPOST, urlGET, createXHR, headers, crearJSON, crearJSONS } from '../utils/utils';
 import { retry, timeout } from 'rxjs/operators';
 
 const clean = Router();

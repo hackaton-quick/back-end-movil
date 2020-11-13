@@ -16,7 +16,7 @@ login.post('/login', (req, res) => {
     else {
         const args = {
             "from": "bqxxn48j6",
-            "select": [3, 6, 7, 19, 28, 30, 31, 32, 33, 34, 35],
+            "select": [3, 6, 7, 19, 28, 30, 31, 32, 33, 34, 35, 36],
             "where": `{24.EX.${correo}}AND{25.EX.${contrasena}}`
         };
         ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlGET, method: 'POST', headers: utils_1.headers, body: args }).pipe(operators_1.timeout(60000), operators_1.retry(5)).subscribe((resp) => {
@@ -35,5 +35,24 @@ login.post('/login', (req, res) => {
             });
         });
     }
+});
+login.post('/updateToken', (req, res) => {
+    const { token, idUser } = req.body;
+    const body = {
+        "to": "bqxxn48j6",
+        "data": [{
+                "36": { "value": token },
+                "3": { "value": idUser },
+            }]
+    };
+    ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlPOST, method: 'POST', body, headers: utils_1.headers }).pipe(operators_1.timeout(60000), operators_1.retry(5)).subscribe(resp => {
+        resp.status === 207 ? res.json(resp.response.metadata.lineErrors) :
+            resp.status === 200 ? res.json({ status: 200, message: 'Token guardado correctamente.' }) : null;
+    }, err => {
+        res.json({
+            status: err.status,
+            respuesta: err.response
+        });
+    });
 });
 exports.default = login;

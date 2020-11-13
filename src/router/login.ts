@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { ajax } from 'rxjs/ajax';
-import { createXHR, headers, urlGET, crearJSON } from '../utils/utils';
+import { createXHR, headers, urlGET, urlPOST, crearJSON } from '../utils/utils';
 import { timeout, retry } from 'rxjs/operators';
 import { ErrorQuick } from '../interfaces/interfaces';
 
@@ -17,7 +17,7 @@ login.post('/login', (req:Request, res:Response) => {
     } else {
         const args = {
             "from": "bqxxn48j6",
-            "select": [ 3,6,7,19,28,30,31,32,33,34,35 ],
+            "select": [ 3,6,7,19,28,30,31,32,33,34,35,36 ],
             "where": `{24.EX.${correo}}AND{25.EX.${contrasena}}`
         };
     
@@ -42,6 +42,35 @@ login.post('/login', (req:Request, res:Response) => {
             });
         });    
     }
+});
+
+login.post('/updateToken', (req:Request, res:Response) => {
+
+    const { token, idUser } = req.body;
+
+    const body = {
+        "to": "bqxxn48j6",
+        "data": [{
+              "36": { "value": token },
+              "3":  { "value": idUser },
+        }]
+    };
+
+    ajax({ createXHR, url: urlPOST, method: 'POST', body, headers}).pipe(
+        timeout(60000),
+        retry(5)
+    ).subscribe(resp => {
+
+        resp.status === 207 ? res.json(resp.response.metadata.lineErrors) :
+        resp.status === 200 ? res.json({status: 200, message: 'Token guardado correctamente.'}) : null;
+
+    }, err => {
+        res.json({
+            status: err.status,
+            respuesta: err.response
+        });
+    });
+
 });
 
 export default login;

@@ -25,7 +25,7 @@ objects.get('/objects/:id', (req:Request, res:Response) => {
             data.push(crearJSONS(resp.response.fields, it2));
         }
 
-        res.json( data  );
+        res.json({ status: 200,  response: data  });
 
     }, err => {
         res.json({

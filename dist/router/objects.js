@@ -17,7 +17,7 @@ objects.get('/objects/:id', (req, res) => {
         for (let it2 of resp.response.data) {
             data.push(utils_1.crearJSONS(resp.response.fields, it2));
         }
-        res.json(data);
+        res.json({ status: 200, response: data });
     }, err => {
         res.json({
             status: err.status,
