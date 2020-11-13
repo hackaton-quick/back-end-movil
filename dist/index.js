@@ -10,6 +10,7 @@ const objetsClean_1 = __importDefault(require("./router/objetsClean"));
 const objects_1 = __importDefault(require("./router/objects"));
 const safeAreas_1 = __importDefault(require("./router/safeAreas"));
 const login_log_1 = __importDefault(require("./router/login_log"));
+const notificaciones_1 = __importDefault(require("./router/notificaciones"));
 const port = process.env.PORT || 3005;
 const server = server_1.default.init(Number(port));
 server.app.use(login_1.default);
@@ -18,6 +19,7 @@ server.app.use(objetsClean_1.default);
 server.app.use(objects_1.default);
 server.app.use(safeAreas_1.default);
 server.app.use(login_log_1.default);
+server.app.use(notificaciones_1.default);
 server.start(() => {
     console.log('Servidor corriendo ' + Number(port));
 });

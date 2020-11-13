@@ -5,8 +5,10 @@ const utils_1 = require("../utils/utils");
 const ajax_1 = require("rxjs/ajax");
 const operators_1 = require("rxjs/operators");
 const log = express_1.Router();
-log.post('/log', (req, res) => {
-    const { idUser, idSafeArea, fecha } = req.body;
+log.get('/log/:idUser/:fecha', (req, res) => {
+    // const {idUser, idSafeArea, fecha} = req.body;
+    const idUser = req.params.idUser;
+    const fecha = req.params.fecha;
     let data = [];
     const args = {
         "from": "bqxy2eeke",
@@ -19,6 +21,25 @@ log.post('/log', (req, res) => {
             data.push(utils_1.crearJSONS(resp.response.fields, it2));
         }
         resp.status === 200 ? res.json({ status: 200, response: data }) : null;
+    }, err => {
+        res.json({
+            status: err.status,
+            response: err.response
+        });
+    });
+});
+log.post('/log', (req, res) => {
+    const { idUser, idSafeArea } = req.body;
+    let data = [];
+    const body = {
+        "to": "bqxy2eeke",
+        "data": [{
+                "6": { "value": idUser },
+                "7": { "value": idSafeArea },
+            }]
+    };
+    ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlPOST, method: 'POST', headers: utils_1.headers, body }).pipe(operators_1.timeout(60000), operators_1.retry(5)).subscribe(resp => {
+        resp.status === 200 ? res.json({ status: 200, message: 'Registro guardado correctamente.' }) : null;
     }, err => {
         res.json({
             status: err.status,
