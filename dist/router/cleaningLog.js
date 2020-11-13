@@ -30,4 +30,24 @@ clean.post('/clean', (req, res) => {
         });
     });
 });
+clean.get('/clean/:idUser', (req, res) => {
+    const idUser = req.params.idUser;
+    const args = {
+        "from": "bqyctsc8q",
+        "select": [11, 8, 7, 13, , 17, 15],
+        "where": `{7.EX.${idUser}}AND{14.EX.true}`
+    };
+    ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlGET, method: 'POST', headers: utils_1.headers, body: args }).pipe(operators_1.timeout(60000), operators_1.retry(5)).subscribe(resp => {
+        let data = [];
+        for (let it2 of resp.response.data) {
+            data.push(utils_1.crearJSONS(resp.response.fields, it2));
+        }
+        res.json({ status: 200, response: data });
+    }, err => {
+        res.json({
+            status: err.status,
+            response: err.response
+        });
+    });
+});
 exports.default = clean;

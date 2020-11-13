@@ -40,4 +40,35 @@ clean.post('/clean', (req:Request, res:Response) => {
 
 });
 
+clean.get('/clean/:idUser', (req:Request, res:Response) => {
+
+    const idUser = req.params.idUser;
+
+    const args = {
+        "from": "bqyctsc8q",
+        "select": [ 11,8,7,13,,17,15 ],
+        "where": `{7.EX.${idUser}}AND{14.EX.true}`
+    };
+    
+    ajax({ createXHR, url: urlGET, method: 'POST', headers, body: args }).pipe(
+        timeout(60000),
+        retry(5)
+    ).subscribe( resp => {
+        let data = [];
+
+        for (let it2 of resp.response.data) {
+            data.push(crearJSONS(resp.response.fields, it2));
+        }
+
+        res.json({ status: 200,  response: data  });
+
+    }, err => {
+        res.json({
+            status: err.status,
+            response: err.response
+        });
+    });
+
+});
+
 export default clean;
