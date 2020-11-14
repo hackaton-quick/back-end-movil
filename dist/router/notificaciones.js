@@ -23,11 +23,11 @@ const express_1 = require("express");
 const admin = __importStar(require("firebase-admin"));
 let serviceAccount = require("../fcm/credentials.json");
 const notification = express_1.Router();
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://notification-test-da4dc.firebaseio.com"
+});
 notification.post('/notification', (req, res) => {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://notification-test-da4dc.firebaseio.com"
-    });
     let registrationToken = 'eOBm93E-TXSv_GM2HU9h6f:APA91bGzakghTjEkJHgxOldTHySfa6qM-toAzATD9KpdZvh8UUsxaW5-TCf9eN7I18bB1U8Niqzwz2GDPVSBAzZfnCoaTBHCy0bjwAhj-Hlof8QeiMknLWPuwIWwNWTd20W4Zald-7KG';
     let message = {
         notification: {

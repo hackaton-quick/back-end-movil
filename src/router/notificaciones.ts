@@ -5,12 +5,12 @@ let serviceAccount = require("../fcm/credentials.json");
 
 const notification = Router();
 
-notification.post('/notification', (req:Request, res:Response) => {
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://notification-test-da4dc.firebaseio.com"
+});
 
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://notification-test-da4dc.firebaseio.com"
-    });
+notification.post('/notification', (req:Request, res:Response) => {
 
     let registrationToken = 'eOBm93E-TXSv_GM2HU9h6f:APA91bGzakghTjEkJHgxOldTHySfa6qM-toAzATD9KpdZvh8UUsxaW5-TCf9eN7I18bB1U8Niqzwz2GDPVSBAzZfnCoaTBHCy0bjwAhj-Hlof8QeiMknLWPuwIWwNWTd20W4Zald-7KG';
 
