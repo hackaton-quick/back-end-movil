@@ -16,11 +16,14 @@ admin.initializeApp({
 
 notification.post('/notification', (req:Request, res:Response) => {
 
-    let data:any[] = [];
     let registrationToken:any[] = [];
     const args = {
         "from": "bqxxn48j6",
         "select": [ 36 ]
+    };
+    let options = {
+        priority: 'high',
+        timeToLive: 60 * 60 * 24
     };
 
     ajax({  createXHR,  url:urlGET, method: 'POST', headers, body: args}).pipe(
@@ -29,26 +32,19 @@ notification.post('/notification', (req:Request, res:Response) => {
     ).subscribe( (resp) => {        
 
         for (let it2 of resp.response.data) {
-            data.push(crearJSONS(resp.response.fields, it2));
-        }
-
-        for (const iterator of data) {
-            registrationToken.push(iterator.Token_notification);
+            registrationToken.push(crearJSONS(resp.response.fields, it2).Token_notification);
         }
 
         let message = {
             notification: {
-                title: 'Safe areas',
-                body: 'Alerta of safe areas'
-            }
+                title: 'Safe areas.',
+                body : 'Alert of safe areas.'
+            },
+            tokens: registrationToken,
+            options
         };
     
-        let options = {
-            priority: 'high',
-            timeToLive: 60 * 60 * 24
-        };
-    
-        admin.messaging().sendToDevice( registrationToken, message, options )
+        admin.messaging().sendMulticast(message)
         .then((response:any) => {
             res.json({ status: 200, message: 'Se envio el correo satisfactoriamente.'});
         })

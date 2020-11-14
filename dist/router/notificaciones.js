@@ -31,30 +31,28 @@ admin.initializeApp({
     databaseURL: "https://notification-test-da4dc.firebaseio.com"
 });
 notification.post('/notification', (req, res) => {
-    let data = [];
     let registrationToken = [];
     const args = {
         "from": "bqxxn48j6",
         "select": [36]
     };
+    let options = {
+        priority: 'high',
+        timeToLive: 60 * 60 * 24
+    };
     ajax_1.ajax({ createXHR: utils_1.createXHR, url: utils_1.urlGET, method: 'POST', headers: utils_1.headers, body: args }).pipe(operators_1.timeout(60000), operators_1.retry(5)).subscribe((resp) => {
         for (let it2 of resp.response.data) {
-            data.push(utils_1.crearJSONS(resp.response.fields, it2));
-        }
-        for (const iterator of data) {
-            registrationToken.push(iterator.Token_notification);
+            registrationToken.push(utils_1.crearJSONS(resp.response.fields, it2).Token_notification);
         }
         let message = {
             notification: {
-                title: 'Safe areas',
-                body: 'Alerta of safe areas'
-            }
+                title: 'Safe areas.',
+                body: 'Alert of safe areas.'
+            },
+            tokens: registrationToken,
+            options
         };
-        let options = {
-            priority: 'high',
-            timeToLive: 60 * 60 * 24
-        };
-        admin.messaging().sendToDevice(registrationToken, message, options)
+        admin.messaging().sendMulticast(message)
             .then((response) => {
             res.json({ status: 200, message: 'Se envio el correo satisfactoriamente.' });
         })
