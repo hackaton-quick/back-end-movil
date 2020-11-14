@@ -40,9 +40,11 @@ notification.post('/notification', (req, res) => {
         .then((response) => {
         // Response is a message ID string.
         console.log('Successfully sent message:', response);
+        res.json({ status: 200, message: 'Se envio el correo satisfactoriamente.' });
     })
         .catch((error) => {
         console.log('Error sending message:', error);
+        res.json({ status: 500, message: 'Algo malo ocurrio.' });
     });
 });
 exports.default = notification;
